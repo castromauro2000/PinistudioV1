@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="oscuro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PiniStudio</title>
+  <meta name="description" content="PiniStudio: control de estudio diario, horas, rachas, exámenes y recordatorios.">
+  <meta name="theme-color" content="#16a34a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PiniStudio">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css?v=7">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">📚</span>
+      <div class="brand-text">
+        <h1>PiniStudio</h1>
+        <p class="sub" id="hoyLabel">—</p>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <label class="materia-selector" title="¿Qué estás estudiando ahora?">
+        <span>Estudiando</span>
+        <select id="selMateria" aria-label="Materia activa"></select>
+      </label>
+      <button class="btn-icon" id="btnInstalar" title="Instalar la app en el celu" aria-label="Instalar la app" hidden>📲</button>
+      <button class="btn-icon mate" id="btnMate" title="Poner el agua para el mate" aria-label="Poner el agua para el mate">🍵</button>
+      <button class="btn-icon" id="btnTema" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
+      <button class="btn-icon" id="btnAjustes" title="Ajustes" aria-label="Ajustes">⚙️</button>
+      <button class="btn-icon" id="btnDescargarApp" title="Descargar copia de la app" aria-label="Descargar copia de la app">⬇️</button>
+      <button class="btn-icon" id="btnExportar" title="Descargar mis datos (JSON)" aria-label="Descargar mis datos">💾</button>
+      <button class="btn-icon" id="btnImportar" title="Restaurar mis datos (JSON)" aria-label="Restaurar mis datos">📂</button>
+      <input type="file" id="archivoImportar" accept="application/json,.json" hidden>
+    </div>
+  </header>
+
+  <!-- Aviso destacado: próximo evento / recordatorio -->
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+
+  <main class="app">
+
+    <!-- ============ ESTADÍSTICAS ============ -->
+    <section class="stats" id="stats" aria-label="Estadísticas"></section>
+
+    <div class="fila">
+
+      <!-- ============ CALENDARIO ============ -->
+      <section class="panel panel-calendario">
+        <div class="panel-head">
+          <h2>Calendario</h2>
+          <div class="nav-mes">
+            <button class="btn-icon sm" id="btnMesAnt" aria-label="Mes anterior">‹</button>
+            <strong id="tituloMes">—</strong>
+            <button class="btn-icon sm" id="btnMesSig" aria-label="Mes siguiente">›</button>
+          </div>
+        </div>
+
+        <div class="dias-semana">
+          <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+        </div>
+
+        <div class="calendario" id="calendario"></div>
+
+        <div class="leyenda">
+          <span><i class="punto studied"></i>Estudiado</span>
+          <span><i class="punto examen"></i>Examen</span>
+          <span><i class="punto libre"></i>Día libre</span>
+          <span><i class="punto companero"></i>Con compañero</span>
+          <span><i class="punto otro"></i>Otro</span>
+          <span><i class="punto hoy"></i>Hoy</span>
+        </div>
+      </section>
+
+      <!-- ============ RACHA ============ -->
+      <section class="panel panel-racha">
+        <div class="panel-head"><h2>Racha</h2></div>
+
+        <div class="racha-grande">
+          <span class="llama" id="llama">🔥</span>
+          <div>
+            <strong class="num-racha" id="numRacha">0</strong>
+            <span class="unidad">días seguidos</span>
+          </div>
+        </div>
+
+        <div class="racha-sub">
+          <div class="mini"><span>Mejor racha</span><strong id="mejorRacha">0</strong></div>
+          <div class="mini"><span>Total estudiado</span><strong id="totalDias">0</strong></div>
+          <div class="mini"><span>Tiempo total</span><strong id="totalHoras">0m</strong></div>
+        </div>
+
+        <p class="racha-msg" id="msgRacha">—</p>
+        <p class="nota" id="relojVivo">⏱ —</p>
+
+        <div class="chips" id="chipsRacha" aria-label="Últimos días estudiados"></div>
+      </section>
+    </div>
+
+    <div class="fila">
+
+      <!-- ============ MATERIAS ============ -->
+      <section class="panel panel-materias">
+        <div class="panel-head">
+          <h2>Materias</h2>
+          <span class="nota">Hacé clic en una para activarla</span>
+        </div>
+
+        <div id="listaMaterias" class="materias"></div>
+
+        <form id="formMateria" class="form-materia">
+          <input type="text" id="materiaNombre" placeholder="Materia (ej: Matemática)" required maxlength="30">
+          <input type="text" id="materiaEmoji" placeholder="📐" maxlength="4" class="emoji-input">
+          <input type="color" id="materiaColor" value="#38bdf8" title="Color">
+          <button class="btn primario" type="submit">Agregar</button>
+        </form>
+      </section>
+
+      <!-- ============ META SEMANAL ============ -->
+      <section class="panel panel-meta">
+        <div class="panel-head"><h2>Meta semanal</h2></div>
+
+        <div class="meta-nums">
+          <strong id="metaHoras">0m</strong>
+          <span id="metaObjetivo">de 15 h por semana</span>
+        </div>
+
+        <div class="barra-meta"><div id="barraMeta"></div></div>
+
+        <p class="nota" id="msgMeta">—</p>
+
+        <label class="sel-meta">
+          Objetivo semanal:
+          <select id="selMeta">
+            <option value="0">Sin meta</option>
+            <option value="5">5 h</option>
+            <option value="10">10 h</option>
+            <option value="15">15 h</option>
+            <option value="20">20 h</option>
+            <option value="25">25 h</option>
+            <option value="30">30 h</option>
+            <option value="40">40 h</option>
+            <option value="60">60 h</option>
+          </select>
+          por semana
+        </label>
+
+        <hr class="separador">
+
+        <div class="meta-nums">
+          <strong id="metaDiaHoras">0m</strong>
+          <span id="metaDiaObjetivo">de 2 h por día</span>
+        </div>
+
+        <div class="barra-meta"><div id="barraMetaDia"></div></div>
+
+        <p class="nota" id="msgMetaDia">—</p>
+
+        <label class="sel-meta">
+          Objetivo diario:
+          <input type="number" id="inpMetaDia" min="0" max="24" step="0.5" value="2" title="Horas por día (pasos de 30 minutos)">
+          horas por día
+        </label>
+      </section>
+    </div>
+
+    <!-- ============ GRÁFICO POR MATERIA ============ -->
+    <section class="panel panel-grafico-mat">
+      <div class="panel-head">
+        <h2>Horas por materia</h2>
+        <select id="selPeriodoMat" class="sel-periodo">
+          <option value="mes">Este mes</option>
+          <option value="semana">Esta semana</option>
+          <option value="total">Total</option>
+        </select>
+      </div>
+      <div id="graficoMaterias" class="grafico-mat"></div>
+    </section>
+
+    <div class="fila">
+
+      <!-- ============ MAPA DE CALOR ============ -->
+      <section class="panel">
+        <div class="panel-head"><h2>Constancia (últimas 20 semanas)</h2></div>
+        <div class="heatmap-wrap"><div class="heatmap" id="heatmap"></div></div>
+        <p class="nota">Cada cuadrito es un día. Verde = estudiaste.</p>
+      </section>
+
+      <!-- ============ GRÁFICO MENSUAL ============ -->
+      <section class="panel">
+        <div class="panel-head"><h2>Días estudiados por mes</h2></div>
+        <div class="barras" id="barras"></div>
+      </section>
+    </div>
+
+    <!-- ============ HISTORIAL MENSUAL ============ -->
+    <section class="panel panel-historial">
+      <div class="panel-head">
+        <h2>Historial mensual</h2>
+        <span class="nota">Clic en un mes para verlo en el calendario</span>
+      </div>
+      <div id="historial" class="historial"></div>
+    </section>
+
+    <!-- ============ EVENTOS ============ -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Fechas importantes</h2>
+        <div class="acciones-panel">
+          <button class="btn" id="btnExportarIcs" title="Descargar las fechas como calendario del sistema">📅 Exportar al calendario</button>
+          <button class="btn" id="btnNuevoEvento">+ Agregar fecha</button>
+        </div>
+      </div>
+      <div id="listaEventos" class="eventos"></div>
+    </section>
+
+    <footer class="pie">
+      Tus datos se guardan solo en este navegador. Usá <strong>💾</strong> para bajar una copia y <strong>📂</strong> para restaurarla.
+    </footer>
+  </main>
+
+  <!-- ============ MODAL: DÍA ============ -->
+  <div class="modal" id="modalDia" hidden>
+    <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="tituloDia">
+      <div class="modal-head">
+        <h3 id="tituloDia">—</h3>
+        <button class="btn-icon sm" data-cerrar aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <button class="btn ancho" id="btnToggleEstudio">Marcar como estudiado</button>
+        <button class="btn ancho" id="btnToggleDescanso" style="margin-top:8px">🌊 Marcar como día de descanso</button>
+        <p class="nota" id="infoHorasDia">—</p>
+        <p class="nota" id="infoDescanso">—</p>
+
+        <h4>Tiempo por materia</h4>
+        <div id="desgloseDia" class="desglose"></div>
+
+        <form id="formTiempo" class="form-tiempo">
+          <select id="tiempoMateria" aria-label="Materia"></select>
+          <select id="tiempoMinutos" aria-label="Duración">
+            <option value="900">15 min</option>
+            <option value="1800" selected>30 min</option>
+            <option value="2700">45 min</option>
+            <option value="3600">1 hora</option>
+            <option value="5400">1,5 h</option>
+            <option value="7200">2 horas</option>
+          </select>
+          <button class="btn" type="submit">Sumar tiempo</button>
+        </form>
+
+        <h4>Fechas de este día</h4>
+        <div id="eventosDelDia" class="eventos-del-dia"></div>
+
+        <form id="formEvento" class="form-evento">
+          <input type="hidden" id="campoFecha">
+          <input type="text" id="campoTitulo" placeholder="Título (ej: Examen de Historia)" required>
+          <select id="campoTipo">
+            <option value="examen">📚 Examen</option>
+            <option value="libre">🌊 Día libre</option>
+            <option value="companero">🤝 Estudio con compañero</option>
+            <option value="otro">📌 Otro</option>
+          </select>
+          <input type="text" id="campoCompanero" placeholder="Nombre del compañero" hidden>
+          <input type="text" id="campoNotas" placeholder="Notas (opcional)">
+          <button class="btn primario" type="submit">Agregar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: AJUSTES ============ -->
+  <div class="modal" id="modalAjustes" hidden>
+    <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="tituloAjustes">
+      <div class="modal-head">
+        <h3 id="tituloAjustes">Ajustes</h3>
+        <button class="btn-icon sm" data-cerrar aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <label class="check">
+          <input type="checkbox" id="optAutoRegistro">
+          <span>Registrar automáticamente el día al abrir la app</span>
+        </label>
+
+        <label class="check">
+          <input type="checkbox" id="optFinesDeSemana">
+          <span>Marcar sábados y domingos como días libres 🌊</span>
+        </label>
+
+        <label class="check">
+          <input type="checkbox" id="optRecordatorio">
+          <span>Enviar recordatorios de fechas próximas</span>
+        </label>
+
+        <label class="check">
+          <span>⏱ La pausa del mate dura</span>
+          <input type="number" id="inpMinutosMate" min="15" max="180" step="5" value="15" title="Mínimo 15 minutos">
+          <span>minutos</span>
+        </label>
+
+        <div class="fila-campos">
+          <label>
+            Avisar con
+            <select id="optDiasAviso">
+              <option value="1">1 día antes</option>
+              <option value="2">2 días antes</option>
+              <option value="3">3 días antes</option>
+              <option value="7">1 semana antes</option>
+            </select>
+          </label>
+          <label>
+            Hora del aviso
+            <input type="time" id="optHoraAviso" value="18:00">
+          </label>
+        </div>
+
+        <p class="nota" id="notaPermiso">
+          Para recibir avisos en el escritorio hay que permitir las notificaciones del navegador.
+        </p>
+
+        <hr class="separador">
+
+        <h4>🔔 Notificaciones aunque la app esté cerrada</h4>
+        <p class="nota">
+          Con Web Push, el servidor te manda el aviso y te lo muestra el sistema
+          operativo, tengas la app abierta o no. Necesita un servidor de avisos
+          (te dejo uno listo en <code>worker-push.js</code>).
+        </p>
+
+        <label class="check">
+          <span>Servidor de avisos (URL del worker):</span>
+          <input type="text" id="inpServidorNotif" placeholder="https://pinistudio-push.tu-usuario.workers.dev" class="input-ancho">
+        </label>
+
+        <div class="botones-notif">
+          <button class="btn primario" id="btnActivarPush">🔔 Activar push</button>
+          <button class="btn" id="btnProbarNotif">🧪 Probar notificación</button>
+          <button class="btn" id="btnRegistrarServidor">📡 Registrar en el servidor</button>
+        </div>
+
+        <p class="nota" id="estadoPush">—</p>
+
+        <hr class="separador">
+
+        <h4>📅 Google Calendar</h4>
+        <p class="nota">
+          Conectá tu cuenta de Google y cada fecha que guardes se anota
+          <strong>también en tu Google Calendar</strong>, con su recordatorio.
+          Así te avisa en la compu y en el celu, aunque la app esté cerrada.
+        </p>
+
+        <div class="botones-notif">
+          <button class="btn primario" id="btnGoogleConectar">🔗 Conectar con Google</button>
+          <button class="btn" id="btnGoogleDesconectar" hidden>🔌 Desconectar</button>
+          <button class="btn" id="btnGoogleSincronizar" hidden>🔄 Sincronizar ahora</button>
+        </div>
+
+        <label class="check">
+          <input type="checkbox" id="optGoogleSync">
+          <span>Sincronizar automáticamente al guardar una fecha</span>
+        </label>
+
+        <p class="nota" id="estadoGoogle">—</p>
+
+        <hr class="separador">
+
+        <h4>📲 Instalar en el celu</h4>
+        <p class="nota">
+          Instalada, la app tiene ícono propio, se abre a pantalla completa
+          (sin barra del navegador) y <strong>funciona sin internet</strong>.
+        </p>
+        <div class="botones-notif">
+          <button class="btn primario" id="btnInstalar2">📲 Instalar la app</button>
+          <button class="btn" id="btnComoInstalar">❓ Cómo se instala</button>
+        </div>
+        <p class="nota" id="estadoInstalacion">—</p>
+
+        <div class="modal-pie">
+          <button class="btn primario" id="btnPermisoNotif">Activar notificaciones</button>
+          <button class="btn" id="btnBorrarTodo" title="Borra todos los datos guardados">Borrar todo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script src="app.js?v=7"></script>
+</body>
+</html>

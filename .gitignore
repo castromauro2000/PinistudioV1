@@ -1,0 +1,10 @@
+# Secrets — never commit these
+.vercel-token.txt
+worker-push.js
+*.log
+
+# Local tooling and generated binaries
+.opencode/
+*.zip
+.DS_Store
+Thumbs.db

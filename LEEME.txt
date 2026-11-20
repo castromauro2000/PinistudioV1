@@ -1,0 +1,27 @@
+﻿PINI STUDIO - App de control de estudio
+=======================================
+
+CÓMO USARLA
+-----------
+1. Abrí el archivo "pinistudio.html" con doble clic.
+2. Se abre en tu navegador y ya funciona.
+3. Cada persona tiene sus propios datos (se guardan en tu navegador).
+
+QUÉ TIENE
+---------
+- Materias: creá las tuyas y el cronómetro le suma el tiempo a la que elijas.
+- Horas de estudio por día y por materia.
+- Metas: 2 horas por día (modificable) y una meta semanal.
+- Rachas: si estudiás varios días seguidos, se prende el fuego.
+- Calendario con exámenes (libro), días libres (mar) y estudios con
+  compañero (mate).
+- Botón del mate: pausa el cronómetro un rato (15 min por defecto).
+- Historial mensual de todo lo que estudiaste.
+- Botón "Exportar al calendario": baja un archivo .ics para que tu
+  agenda te avise de los exámenes y de los estudios con compañero
+  (el aviso sale la noche anterior).
+
+RECOMENDACIÓN
+-------------
+Marcá las fechas importantes y apretá "Exportar al calendario" una vez.
+Después, solo tenés que mirar tu agenda.

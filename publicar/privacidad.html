@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacidad — PiniStudio</title>
+<style>
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;max-width:720px;margin:0 auto;padding:24px;line-height:1.6;color:#222;background:#fafafa}
+  h1{font-size:1.5rem}
+  a{color:#2b6cb0}
+</style>
+</head>
+<body>
+<h1>Política de Privacidad de PiniStudio</h1>
+
+<p><strong>Resumen corto:</strong> PiniStudio no tiene servidor, ni cuenta de usuario, ni base de datos en la nube. Todo lo que guardás (materias, horas, fechas, metas) queda en tu propio navegador.</p>
+
+<h2>Qué guardamos y dónde</h2>
+<ul>
+  <li>Los datos de la app (materias, horas estudiadas, rachas, metas, calendario) se guardan en el <em>localStorage</em> de tu navegador, con la clave <code>pinistudio-v1</code>.</li>
+  <li>Si conectás tu cuenta de Google Calendar, el token de acceso se guarda solo en tu navegador, con la clave <code>pinistudio-google</code>. Nunca se sube a ningún servidor nuestro (no existe backend).</li>
+  <li>Si exportás o compartís un archivo <code>.json</code> de respaldo, ese archivo no incluye el token de Google.</li>
+</ul>
+
+<h2>Qué hacemos con esa información</h2>
+<p>Nada. No la vendemos, no la compartimos, no la usamos para publicidad ni para analítica. No hay servidores donde se acumulen tus datos.</p>
+
+<h2>Google Calendar</h2>
+<p>Si decidís conectar Google Calendar, la app usa el permiso <code>calendar.app.created</code>: puede crear un calendario propio llamado “PiniStudio” y agregar, modificar o borrar eventos en él. <strong>No puede leer ni modificar tus otros calendarios.</strong> Cuando desconectás la app desde Ajustes, se borra el token de tu navegador y se le pide a Google que revoque el acceso. Los eventos que ya se habían creado en Google no se borran automáticamente: los podés borrar desde Google Calendar.</p>
+
+<h2>Borrar tus datos</h2>
+<p>Borrando los datos del sitio en tu navegador o usando “Borrar todo” dentro de la app, se elimina todo lo guardado localmente.</p>
+
+<h2>Contacto</h2>
+<p>castro.mauro.2000@gmail.com</p>
+</body>
+</html>
