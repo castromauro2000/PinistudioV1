@@ -181,8 +181,10 @@ en el chat ni lo subas.
 - **`.gitignore` excluye secretos**: `.vercel-token.txt`, `worker-push.js`
   (clave privada VAPID), `*.log`, `.opencode/`, `*.zip`. Nunca fuerces un
   `git add` de esos archivos.
-- El remote de GitHub **todavía no está conectado**: hay que correr
-  `gh auth login --web --git-protocol https` y crear el repo privado.
+- El remote de GitHub **ya está conectado**:
+  `https://github.com/castromauro2000/PinistudioV1.git` (repo público; el
+  `client_secret` y el token de Vercel NUNCA se suben). Para autenticar en otra
+  máquina: `gh auth login --web --git-protocol https`.
 - Los archivos derivados (`pinistudio.html`, `publicar/`) se regeneran y se
   incluyen en el mismo commit que el cambio de `app.js` / `styles.css`.
 
