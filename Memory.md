@@ -16,8 +16,8 @@
   y `terminos.html` (en Vercel se sirven en `/privacidad` y `/terminos`).
 - ✅ **Repo git local** (19/11): ramas `main` y `developer` con el mismo contenido.
   `.gitignore` excluye secretos. Remote conectado: `castromauro2000/PinistudioV1` (público).
-- ✅ Tarjeta "Horas de hoy" destacada (el doble de ancho en desktop, 182 px en el
-  scroll del celu). Desplegada en Vercel 19/11; 0 errores, sin overflow nuevo.
+- ✅ Tarjeta "Horas de hoy" es la **primera** y destacada (doble ancho en desktop,
+  182 px en el celu). Desplegada en Vercel 19/11; 0 errores, sin overflow nuevo.
 - ⬜ Pendiente real: **sincronización entre dispositivos** (datos por navegador).
 - ⬜ Opcional: push real (`worker-push.js` escrito, sin desplegar).
 - 📌 `index.html` usa `?v=7` en JS/CSS y `sw.js` va en `pinistudio-v7`. Subir
