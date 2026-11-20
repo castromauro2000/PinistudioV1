@@ -171,13 +171,24 @@ en el chat ni lo subas.
   app.js` valida la sintaxis al instante.
 
 ---
-## Git (flujo de ramas)
+## Git (flujo de ramas) — REGLA del usuario (19/11/2026)
 
-- El proyecto **sí es repo git** (inicializado el 19/11/2026) con dos ramas:
-  **`main`** y **`developer`**. El usuario pidió hacer los cambios en `main`
-  primero y después llevarlos a `developer` (se hace con `git cherry-pick`).
-- Mantener **ambas ramas con el mismo contenido** al terminar cada cambio:
-  `git diff main developer --stat` debe dar vacío.
+- Tres ramas: **`prueba`** (donde se hace TODO cambio primero), **`main`**
+  (producción) y **`developer`**.
+- **Nunca tocar `developer` sin autorización explícita del usuario.** Tampoco
+  pasar un cambio a `main` sin que el usuario lo autorice después de verlo.
+- Flujo obligatorio:
+  1. Crear/actualizar rama `prueba` desde `main` y hacer el cambio ahí.
+  2. Verificar en `localhost:8080` (consola 0 errores) y, si hace falta verlo
+     en el celu, usar `iniciar-tunel.ps1` (link temporal, sin tocar producción).
+  3. Mostrar el resultado al usuario y **esperar su autorización**.
+  4. Recién entonces: merge de `prueba` a `main` → deploy a Vercel → verificar.
+  5. `developer` se actualiza **solo con autorización separada**, mediante
+     cherry-pick del commit de `main`.
+- El usuario puede decir "pasalo a developer" en cualquier momento; hasta ahí,
+  `developer` queda intacta. `git diff main developer --stat` puede dar
+  diferencias mientras haya cambios pendientes en `main`/`prueba`: **no es un
+  error**, es el estado esperado.
 - **`.gitignore` excluye secretos**: `.vercel-token.txt`, `worker-push.js`
   (clave privada VAPID), `*.log`, `.opencode/`, `*.zip`. Nunca fuerces un
   `git add` de esos archivos.

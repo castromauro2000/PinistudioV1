@@ -14,8 +14,8 @@
   "PiniStudio", recordatorios popup+email, borrado en Google al borrar en la app.
   Client ID real en `app.js`. Consent screen publicado. Páginas `privacidad.html`
   y `terminos.html` (en Vercel se sirven en `/privacidad` y `/terminos`).
-- ✅ **Repo git local** (19/11): ramas `main` y `developer` con el mismo contenido.
-  `.gitignore` excluye secretos. Remote conectado: `castromauro2000/PinistudioV1` (público).
+- ✅ **Repo git local** (19/11): ramas `prueba`, `main` y `developer`. Remote:
+  `castromauro2000/PinistudioV1` (público). `.gitignore` excluye secretos.
 - ✅ Tarjeta "Horas de hoy" es la **primera** y destacada (doble ancho en desktop,
   182 px en el celu). Desplegada en Vercel 19/11; 0 errores, sin overflow nuevo.
 - ⬜ Pendiente real: **sincronización entre dispositivos** (datos por navegador).
@@ -34,7 +34,7 @@
   no puede listar calendarios (403) → cada navegador crea su propia copia.
 - **Eventos emparejados por `extendedProperties.private.pinistudioId`**: permite
   borrar en Google lo que ya no está en la app, sin duplicados.
-- **Git: cambios en `main` → cherry-pick a `developer`**, ambas ramas iguales.
+- **Git: TODO cambio en `prueba` → autorización → `main` → (otra autorización) `developer`.**
 
 ## Errores a evitar (aprendidos a golpes)
 1. Editar la raíz y **olvidar copiar a `publicar/`** → se sube la versión vieja.
