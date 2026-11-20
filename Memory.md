@@ -9,8 +9,7 @@
 - ✅ Completa: materias, cronómetro, rachas, metas, calendario con íconos
   (📚🌊🧉📌), fin de semana + override, pausa del mate, historial mensual,
   gráfico por materia, temas, export `.ics`/`.json`, PWA instalable.
-- ✅ En **Vercel** (pública, sin login). Docs: `README`, `PUBLICAR`, `COMPARTIR`,
-  `CELULAR`, `LEEME.txt`, `LECCIONES/`, `GOOGLE-CALENDAR.md`, `AGENTS.md`.
+- ✅ En **Vercel** (pública, sin login). Docs: `README`, `PUBLICAR`, `COMPARTIR`, `CELULAR`, `LEEME.txt`, `LECCIONES/`, `GOOGLE-CALENDAR.md`, `AGENTS.md`.
 - ✅ **Google Calendar funcionando** (probado end-to-end 18/11): calendario
   "PiniStudio", recordatorios popup+email, borrado en Google al borrar en la app.
   Client ID real en `app.js`. Consent screen publicado. Páginas `privacidad.html`
@@ -45,9 +44,7 @@
 4. **El SW mezcla HTML nuevo con JS viejo** (sirve `app.js` de caché primero):
    cache-busting `?v=N` en `index.html` + subir `CACHE` en `sw.js`.
    `empaquetar.ps1` acepta el `?v=N`.
-5. **Pestañas viejas al testear**: cada una corre su `setInterval` y pisa el
-   `localStorage`.
-6. **Bloque fusionado dentro de un `//`** rompe una función en silencio.
-7. **`ReadAllBytes` no acepta un string**: usar `[System.Text.Encoding]::UTF8.GetBytes`.
-8. **Google Auth Platform cambió las URLs**: `/auth/overview/create`, `/auth/scopes`,
+5. **Pestañas viejas** (pisan `localStorage`) y **bloque en un `//`** (rompe una función en silencio).
+6. **`ReadAllBytes` no acepta un string**: usar `[System.Text.Encoding]::UTF8.GetBytes`.
+7. **Google Auth Platform cambió las URLs**: `/auth/overview/create`, `/auth/scopes`,
    `/auth/audience`, `/auth/branding`, `/auth/clients/create`. `/auth/consent` ya no.
