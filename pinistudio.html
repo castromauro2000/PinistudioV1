@@ -185,6 +185,16 @@ body {
 .stat strong { font-size: 26px; display: block; margin-top: 4px; }
 .stat small { color: var(--texto-2); font-size: 12px; }
 
+/* La tarjeta de tiempo de hoy es la protagonista: ocupa el doble
+   de ancho y el número se lee de un vistazo. */
+.stat-destacada {
+  grid-column: span 2;
+  padding: 18px 20px;
+  background: var(--panel-2);
+  border-color: var(--acento);
+}
+.stat-destacada strong { font-size: 38px; margin-top: 6px; }
+
 /* ---------------- Calendario ---------------- */
 .dias-semana {
   display: grid;
@@ -732,6 +742,9 @@ body.celebracion .barra-meta > div { background: linear-gradient(90deg, var(--ac
   .stat span { font-size: 10px; }
   .stat strong { font-size: 20px; }
   .stat small { font-size: 10px; }
+  /* En el celu no hay grilla: solo más ancho en el scroll horizontal */
+  .stat-destacada { grid-column: auto; min-width: 182px; padding: 12px 14px; }
+  .stat-destacada strong { font-size: 30px; }
 
   .panel { padding: 12px; border-radius: 12px; }
   .panel-head { margin-bottom: 11px; }
@@ -2135,7 +2148,7 @@ function renderStats() {
     { t: 'Días estudiados', v: total, s: 'en total' },
     { t: 'Racha actual', v: rachaActual(), s: 'días seguidos 🔥' },
     { t: 'Mejor racha', v: mejorRacha(), s: 'récord' },
-    { t: 'Horas de hoy', v: formatoHoras(horasHoy), s: metaHoy.meta ? `meta: ${metaHoy.meta} h` : 'con la app abierta' },
+    { t: 'Horas de hoy', v: formatoHoras(horasHoy), s: metaHoy.meta ? `meta: ${metaHoy.meta} h` : 'con la app abierta', destacada: true },
     { t: 'Meta de hoy', v: metaHoy.meta ? metaHoy.pct + '%' : '—', s: metaHoy.meta ? (metaHoy.cumplida ? 'cumplida 🎉' : 'objetivo del día') : 'sin meta' },
     { t: 'Horas totales', v: formatoHoras(horasTotales), s: 'acumuladas' },
     { t: 'Este mes', v: pct + '%', s: `${delMes} de ${diasDelMes} días` },
@@ -2144,7 +2157,7 @@ function renderStats() {
   ];
 
   document.getElementById('stats').innerHTML = stats.map(s =>
-    `<div class="stat"><span>${s.t}</span><strong>${s.v}</strong><small>${s.s}</small></div>`
+    `<div class="stat${s.destacada ? ' stat-destacada' : ''}"><span>${s.t}</span><strong>${s.v}</strong><small>${s.s}</small></div>`
   ).join('');
 }
 

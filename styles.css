@@ -169,6 +169,16 @@ body {
 .stat strong { font-size: 26px; display: block; margin-top: 4px; }
 .stat small { color: var(--texto-2); font-size: 12px; }
 
+/* La tarjeta de tiempo de hoy es la protagonista: ocupa el doble
+   de ancho y el número se lee de un vistazo. */
+.stat-destacada {
+  grid-column: span 2;
+  padding: 18px 20px;
+  background: var(--panel-2);
+  border-color: var(--acento);
+}
+.stat-destacada strong { font-size: 38px; margin-top: 6px; }
+
 /* ---------------- Calendario ---------------- */
 .dias-semana {
   display: grid;
@@ -716,6 +726,9 @@ body.celebracion .barra-meta > div { background: linear-gradient(90deg, var(--ac
   .stat span { font-size: 10px; }
   .stat strong { font-size: 20px; }
   .stat small { font-size: 10px; }
+  /* En el celu no hay grilla: solo más ancho en el scroll horizontal */
+  .stat-destacada { grid-column: auto; min-width: 182px; padding: 12px 14px; }
+  .stat-destacada strong { font-size: 30px; }
 
   .panel { padding: 12px; border-radius: 12px; }
   .panel-head { margin-bottom: 11px; }

@@ -920,7 +920,7 @@ function renderStats() {
     { t: 'Días estudiados', v: total, s: 'en total' },
     { t: 'Racha actual', v: rachaActual(), s: 'días seguidos 🔥' },
     { t: 'Mejor racha', v: mejorRacha(), s: 'récord' },
-    { t: 'Horas de hoy', v: formatoHoras(horasHoy), s: metaHoy.meta ? `meta: ${metaHoy.meta} h` : 'con la app abierta' },
+    { t: 'Horas de hoy', v: formatoHoras(horasHoy), s: metaHoy.meta ? `meta: ${metaHoy.meta} h` : 'con la app abierta', destacada: true },
     { t: 'Meta de hoy', v: metaHoy.meta ? metaHoy.pct + '%' : '—', s: metaHoy.meta ? (metaHoy.cumplida ? 'cumplida 🎉' : 'objetivo del día') : 'sin meta' },
     { t: 'Horas totales', v: formatoHoras(horasTotales), s: 'acumuladas' },
     { t: 'Este mes', v: pct + '%', s: `${delMes} de ${diasDelMes} días` },
@@ -929,7 +929,7 @@ function renderStats() {
   ];
 
   document.getElementById('stats').innerHTML = stats.map(s =>
-    `<div class="stat"><span>${s.t}</span><strong>${s.v}</strong><small>${s.s}</small></div>`
+    `<div class="stat${s.destacada ? ' stat-destacada' : ''}"><span>${s.t}</span><strong>${s.v}</strong><small>${s.s}</small></div>`
   ).join('');
 }
 
