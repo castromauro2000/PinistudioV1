@@ -171,6 +171,22 @@ en el chat ni lo subas.
   app.js` valida la sintaxis al instante.
 
 ---
+## Git (flujo de ramas)
+
+- El proyecto **sí es repo git** (inicializado el 19/11/2026) con dos ramas:
+  **`main`** y **`developer`**. El usuario pidió hacer los cambios en `main`
+  primero y después llevarlos a `developer` (se hace con `git cherry-pick`).
+- Mantener **ambas ramas con el mismo contenido** al terminar cada cambio:
+  `git diff main developer --stat` debe dar vacío.
+- **`.gitignore` excluye secretos**: `.vercel-token.txt`, `worker-push.js`
+  (clave privada VAPID), `*.log`, `.opencode/`, `*.zip`. Nunca fuerces un
+  `git add` de esos archivos.
+- El remote de GitHub **todavía no está conectado**: hay que correr
+  `gh auth login --web --git-protocol https` y crear el repo privado.
+- Los archivos derivados (`pinistudio.html`, `publicar/`) se regeneran y se
+  incluyen en el mismo commit que el cambio de `app.js` / `styles.css`.
+
+---
 ## Historia que conviene conocer
 
 Un renombre masivo con PowerShell **corruptió** `app.js`, `styles.css`,
